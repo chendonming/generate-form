@@ -5,8 +5,9 @@
       :append-to-body="true"
       v-bind="$attrs"
       :visible.sync="show"
-      width="30%"
-      top="0"
+      width="60%"
+      @open="open"
+      @opened="opened"
     >
       <slot></slot>
       <span slot="footer" class="dialog-footer">
@@ -59,32 +60,7 @@ export default {
       if (val) {
         this.$nextTick(() => {
           // Center display
-          const dom = this.instance || this.getInstance();
-          this.instance = dom;
-          const height = dom.offsetHeight;
-          const width = dom.offsetWidth;
-          const parentWrapper = dom.closest(".el-dialog__wrapper");
-          const parentHeight = parentWrapper.offsetHeight;
-          const parentWidth = parentWrapper.offsetWidth;
-          this.initX = (parentWidth - width) / 2;
-          this.initY = (parentHeight - height) / 2;
-          if (this.initY < this.maxGap) {
-            this.initY = this.maxGap;
-            const headerHeight = dom.querySelector(".el-dialog__header")
-              .offsetHeight;
-            const footerHeight = dom.querySelector(".el-dialog__footer")
-              .offsetHeight;
-            document.querySelector(
-              ".el-dialog__body"
-            ).style.height = `${parentHeight -
-              headerHeight -
-              footerHeight -
-              2 * this.maxGap -
-              60}px`;
-            document.querySelector(".el-dialog__body").style.overflow = "auto";
-          }
-          dom.style.top = `${this.initY}px`;
-          dom.style.left = `${this.initX}px`;
+          this.renderingAdjustmentPosition();
         });
       }
     }
@@ -95,6 +71,7 @@ export default {
       document.removeEventListener("mousemove", this.handleMousemove);
       document.removeEventListener("mouseup", this.handleMouseup);
     }
+    window.removeEventListener("resize", this.renderingAdjustmentPosition);
   },
   mounted() {
     const dom = this.getInstance();
@@ -108,6 +85,8 @@ export default {
       document.addEventListener("mousemove", this.handleMousemove);
       document.addEventListener("mouseup", this.handleMouseup);
     }
+
+    window.addEventListener("resize", this.renderingAdjustmentPosition);
   },
   methods: {
     getInstance() {
@@ -151,11 +130,21 @@ export default {
     submit() {
       this.$emit("submit");
     },
+    open() {
+      this.$emit("open");
+    },
+    opened() {
+      this.renderingAdjustmentPosition();
+    },
     closeModal() {
       this.$emit("update:visible", false);
     },
     renderingAdjustmentPosition() {
-      const dom = this.$refs.dialog.$el;
+      if (!this.show) {
+        return;
+      }
+      const dom = this.instance || this.getInstance();
+      this.instance = dom;
       const height = dom.offsetHeight;
       const width = dom.offsetWidth;
       const parentWrapper = dom.closest(".el-dialog__wrapper");

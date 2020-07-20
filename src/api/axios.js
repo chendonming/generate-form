@@ -3,7 +3,7 @@ import axios from "axios";
 const uid = sessionStorage.getItem("uid");
 
 const ajax = axios.create({
-  baseURL: "/api/",
+  baseURL: "/g/",
   headers: {
     uid
   }

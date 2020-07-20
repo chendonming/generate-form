@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import i18n from "@/i18n/i18n";
 import ElementUI from "element-ui";
+import "@/style/reset.css";
 import "element-ui/lib/theme-chalk/index.css";
 import "@/style/global.css";
 

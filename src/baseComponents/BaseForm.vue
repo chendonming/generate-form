@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" v-bind="$attrs" :rules="defaultRules">
+  <el-form ref="form" v-bind="$attrs" :rules="defaultRules" size="small">
     <slot></slot>
   </el-form>
 </template>
@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       defaultRules: {}, // Default configuration made by interception
-      validateList: []
+      validateList: [],
     };
   },
   created() {

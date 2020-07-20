@@ -6,6 +6,7 @@
         :label="column.label"
         :prop="column.prop"
         :key="index"
+        :align="column.align || 'center'"
         :width="column.width"
       >
         <template #default="scope">

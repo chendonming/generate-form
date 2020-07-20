@@ -10,12 +10,8 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      "/api/": {
-        target: "http://172.18.1.99:11000",
-        changeOrigin: true
-      },
-      "/upload/": {
-        target: "http://172.18.1.99:20020",
+      "/g/": {
+        target: "http://localhost:3000",
         changeOrigin: true
       }
     }
