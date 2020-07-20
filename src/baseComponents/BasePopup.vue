@@ -5,7 +5,7 @@
       :append-to-body="true"
       v-bind="$attrs"
       :visible.sync="show"
-      width="60%"
+      :width="$attrs.width || '60%'"
       @open="open"
       @opened="opened"
     >

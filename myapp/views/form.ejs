@@ -1,0 +1,55 @@
+<template>
+  <div>
+    <!-- 头部查询部分 -->
+    <base-form inline :model="inlineForm">
+      <% query.forEach(el => { -%>
+        <el-form-item prop="<%=el.column_name %>" label="<%=el.column_comment %>">
+          <% if(el.component === 'el-input') {-%>
+            <el-input v-model="inlineForm.<%=el.column_name %>"></el-input>
+          <% }-%>
+        </el-form-item>
+      <%}); -%>
+        <el-form-item>
+            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="primary" @click="add">新增</el-button>
+        </el-form-item>
+    </base-form>
+    <base-table :columns="column" :data="data"></base-table>
+    <base-popup :visible.sync="visible" title="新增">
+      <base-form>
+
+      </base-form>
+    </base-popup>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: '',
+    data() {
+      return {
+        visible: false,
+        inlineForm: {
+          <% query.forEach(el => { -%>
+            <%=el.column_name %>: '',
+          <%}); -%>
+        },
+        column: [
+
+        ],
+        data: []
+      }
+    },
+    created() {
+
+    },
+    methods: {
+      query() {
+
+      },
+      add() {
+        this.visible = true;
+      }
+    }
+  }
+</script>
